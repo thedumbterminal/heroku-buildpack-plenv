@@ -4,8 +4,20 @@ indent() {
   sed -u 's/^/       /'
 }
 
+log() {
+  echo $1 | indent
+}
+
 BUILD_DIR=$1
 CACHE_DIR=$2
+
+mkdir -p ${CACHE_DIR}
+
+log "Cache dir: ${CACHE_DIR}"
+
+ls -al ${CACHE_DIR}
+
+git clone https://github.com/tokuhirom/plenv.git ${CACHE_DIR}/.plenv
 
 if [ -e "$BUILD_DIR/.perl-version" ]; then
   PERL_VERSION=`cat $BUILD_DIR/.perl-version`
@@ -14,4 +26,4 @@ else
   exit 1
 fi
 
-echo "Perl version: ${PERL_VERSION}" | indent
+log "Perl version: ${PERL_VERSION}"
