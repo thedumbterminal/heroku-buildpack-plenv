@@ -8,6 +8,10 @@ log() {
   echo $1 | indent
 }
 
+log_section() {
+  echo "-----> $1"
+}
+
 BUILD_DIR=$1
 CACHE_DIR=$2
 
@@ -18,7 +22,7 @@ log "Cache dir: ${CACHE_DIR}"
 export PLENV_ROOT=${CACHE_DIR}/.plenv
 
 if [ ! -e "${PLENV_ROOT}" ]; then
-  log "Downloading plenv..."
+  log_section "Downloading plenv..."
   git clone https://github.com/tokuhirom/plenv.git ${PLENV_ROOT}
 fi
 
@@ -28,7 +32,7 @@ eval "$(plenv init -)"
 env
 
 if [ ! -e "${PLENV_ROOT}/plugins/perl-build" ]; then
-  log "Downloading perl-build..."
+  log_section "Downloading perl-build..."
   git clone https://github.com/tokuhirom/Perl-Build.git ${PLENV_ROOT}/plugins/perl-build
 fi
 
@@ -43,14 +47,18 @@ fi
 
 log "Perl version required: ${PERL_VERSION}"
 
-log "Installed perls:"
-plenv versions
-
 if ! plenv versions | grep "${PERL_VERSION}"; then
-  log "Installing required perl..."
+  log_section "Installing required perl..."
   plenv install ${PERL_VERSION}
   plenv rehash
 fi
 
 log "Installed perls:"
 plenv versions
+
+log_section "Installing base dependencies..."
+log "Installing cpanm..."
+plenv install-cpanm
+
+log "Installing carton..."
+cpanm Carton
