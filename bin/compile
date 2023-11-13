@@ -32,8 +32,10 @@ if [ ! -e "${PLENV_ROOT}/plugins/perl-build" ]; then
   git clone https://github.com/tokuhirom/Perl-Build.git ${PLENV_ROOT}/plugins/perl-build
 fi
 
-if [ -e "$BUILD_DIR/.perl-version" ]; then
-  PERL_VERSION=`cat $BUILD_DIR/.perl-version`
+cd $BUILD_DIR
+
+if [ -e ".perl-version" ]; then
+  PERL_VERSION=`cat .perl-version`
 else
   echo "No perl version defined"
   exit 1
@@ -47,6 +49,8 @@ plenv versions
 if ! plenv versions | grep "${PERL_VERSION}"; then
   log "Installing required perl..."
   plenv install ${PERL_VERSION}
+  plenv rehash
 fi
 
-plenv rehash
+log "Installed perls:"
+plenv versions
