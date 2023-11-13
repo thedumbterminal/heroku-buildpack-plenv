@@ -23,7 +23,8 @@ if [ ! -e "${CACHE_DIR}/.plenv" ]; then
 fi
 
 export PATH=${CACHE_DIR}/.plenv/bin:$PATH
-plenv
+log "Installed perls:"
+plenv versions
 
 if [ -e "$BUILD_DIR/.perl-version" ]; then
   PERL_VERSION=`cat $BUILD_DIR/.perl-version`
@@ -32,4 +33,6 @@ else
   exit 1
 fi
 
-log "Perl version: ${PERL_VERSION}"
+log "Perl version required: ${PERL_VERSION}"
+
+plenv install ${PERL_VERSION}
