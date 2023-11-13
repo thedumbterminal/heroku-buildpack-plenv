@@ -1,0 +1,17 @@
+#!/bin/sh
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+if [ -e "$BUILD_DIR/.perl-version" ]; then
+  PERL_VERSION=`cat $BUILD_DIR/.perl-version`
+else
+  echo "No perl version defined"
+  exit 1
+fi
+
+echo "Perl version: ${PERL_VERSION}" | indent
