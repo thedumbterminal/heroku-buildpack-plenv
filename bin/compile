@@ -13,8 +13,6 @@ CACHE_DIR=$2
 
 env
 
-ls -al /app
-
 mkdir -p ${CACHE_DIR}
 
 log "Cache dir: ${CACHE_DIR}"
@@ -28,6 +26,8 @@ fi
 
 export PATH=${CACHE_DIR}/.plenv/bin:$PATH
 eval "$(plenv init -)"
+
+env
 
 which plenv
 
