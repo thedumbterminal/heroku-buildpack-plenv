@@ -49,12 +49,18 @@ if ! plenv versions | grep "${PERL_VERSION}"; then
   plenv rehash
 
   log_section "Installing base perl dependencies..."
-  plenv install-cpanm  2>&1 | indent
-  cpanm Carton  2>&1 | indent
+  plenv install-cpanm 2>&1 | indent
+  cpanm Carton Starman 2>&1 | indent
 fi
 
 log "Installed perls:"
-plenv versions  2>&1 | indent
+plenv versions 2>&1 | indent
 
-log_section "Installing dependencies with Carton"
+log_section "Installing dependencies with Carton..."
+log "Restoring module cache"
+mkdir -p ${CACHE_DIR}/local
+cp -a ${CACHE_DIR}/local local
 carton install --deployment 2>&1 | indent
+log "Replacing module cache"
+rm -rf ${CACHE_DIR}/local
+cp -a local ${CACHE_DIR}/
