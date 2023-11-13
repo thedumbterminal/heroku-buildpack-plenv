@@ -11,18 +11,14 @@ log() {
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-env
-
 mkdir -p ${CACHE_DIR}
 
 log "Cache dir: ${CACHE_DIR}"
 
-ls -al ${CACHE_DIR}
-
 export PLENV_ROOT=${CACHE_DIR}/.plenv
 
 if [ ! -e "${PLENV_ROOT}" ]; then
-  log "Downloading plenv"
+  log "Downloading plenv..."
   git clone https://github.com/tokuhirom/plenv.git ${PLENV_ROOT}
 fi
 
@@ -31,16 +27,10 @@ eval "$(plenv init -)"
 
 env
 
-which plenv
-
-
 if [ ! -e "${PLENV_ROOT}/plugins/perl-build" ]; then
-  log "Downloading perl-build"
+  log "Downloading perl-build..."
   git clone https://github.com/tokuhirom/Perl-Build.git ${PLENV_ROOT}/plugins/perl-build
 fi
-
-log "Installed perls:"
-plenv versions
 
 if [ -e "$BUILD_DIR/.perl-version" ]; then
   PERL_VERSION=`cat $BUILD_DIR/.perl-version`
@@ -51,4 +41,12 @@ fi
 
 log "Perl version required: ${PERL_VERSION}"
 
-plenv install ${PERL_VERSION}
+log "Installed perls:"
+plenv versions
+
+if ! plenv versions | grep "${PERL_VERSION}"; then
+  log "Installing required perl..."
+  plenv install ${PERL_VERSION}
+fi
+
+plenv rehash
