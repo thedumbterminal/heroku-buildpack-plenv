@@ -17,8 +17,6 @@ CACHE_DIR=$2
 
 mkdir -p ${CACHE_DIR}
 
-ls -al ${CACHE_DIR}
-
 export PLENV_ROOT=${CACHE_DIR}/.plenv
 
 if [ ! -e "${PLENV_ROOT}" ]; then
@@ -61,7 +59,7 @@ plenv versions 2>&1 | indent
 log_section "Installing dependencies with Carton..."
 log "Restoring module cache"
 mkdir -p ${CACHE_DIR}/local
-cp -av ${CACHE_DIR}/local local
+cp -a ${CACHE_DIR}/local local
 carton install --deployment 2>&1 | indent
 log "Replacing module cache"
 rm -rf ${CACHE_DIR}/local
