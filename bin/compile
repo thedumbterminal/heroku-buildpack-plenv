@@ -19,12 +19,14 @@ log "Cache dir: ${CACHE_DIR}"
 
 ls -al ${CACHE_DIR}
 
-if [ ! -e "${CACHE_DIR}/.plenv" ]; then
+export PLENV_ROOT=${CACHE_DIR}/.plenv
+
+if [ ! -e "${PLENV_ROOT}" ]; then
   log "Downloading plenv"
-  git clone https://github.com/tokuhirom/plenv.git ${CACHE_DIR}/.plenv
+  git clone https://github.com/tokuhirom/plenv.git ${PLENV_ROOT}
 fi
 
-export PATH=${CACHE_DIR}/.plenv/bin:$PATH
+export PATH=${PLENV_ROOT}/bin:$PATH
 eval "$(plenv init -)"
 
 env
@@ -32,9 +34,9 @@ env
 which plenv
 
 
-if [ ! -e "${CACHE_DIR}/.plenv/plugins/perl-build" ]; then
+if [ ! -e "${PLENV_ROOT}/plugins/perl-build" ]; then
   log "Downloading perl-build"
-  git clone https://github.com/tokuhirom/Perl-Build.git ${CACHE_DIR}/.plenv/plugins/perl-build
+  git clone https://github.com/tokuhirom/Perl-Build.git ${PLENV_ROOT}/plugins/perl-build
 fi
 
 log "Installed perls:"
