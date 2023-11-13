@@ -22,12 +22,14 @@ if [ ! -e "${CACHE_DIR}/.plenv" ]; then
   git clone https://github.com/tokuhirom/plenv.git ${CACHE_DIR}/.plenv
 fi
 
+export PATH=${CACHE_DIR}/.plenv/bin:$PATH
+eval "$(plenv init -)"
+
 if [ ! -e "${CACHE_DIR}/.plenv/plugins/perl-build" ]; then
   log "Downloading perl-build"
   git clone https://github.com/tokuhirom/Perl-Build.git ${CACHE_DIR}/.plenv/plugins/perl-build/
 fi
 
-export PATH=${CACHE_DIR}/.plenv/bin:$PATH
 log "Installed perls:"
 plenv versions
 
