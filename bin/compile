@@ -17,23 +17,19 @@ CACHE_DIR=$2
 
 mkdir -p ${CACHE_DIR}
 
-log "Cache dir: ${CACHE_DIR}"
-
 export PLENV_ROOT=${CACHE_DIR}/.plenv
 
 if [ ! -e "${PLENV_ROOT}" ]; then
   log_section "Downloading plenv..."
-  git clone https://github.com/tokuhirom/plenv.git ${PLENV_ROOT}
+  git clone https://github.com/tokuhirom/plenv.git ${PLENV_ROOT} 2>&1 | indent
 fi
 
 export PATH=${PLENV_ROOT}/bin:$PATH
 eval "$(plenv init -)"
 
-env
-
 if [ ! -e "${PLENV_ROOT}/plugins/perl-build" ]; then
   log_section "Downloading perl-build..."
-  git clone https://github.com/tokuhirom/Perl-Build.git ${PLENV_ROOT}/plugins/perl-build
+  git clone https://github.com/tokuhirom/Perl-Build.git ${PLENV_ROOT}/plugins/perl-build 2>&1 | indent
 fi
 
 cd $BUILD_DIR
@@ -49,16 +45,16 @@ log "Perl version required: ${PERL_VERSION}"
 
 if ! plenv versions | grep "${PERL_VERSION}"; then
   log_section "Installing required perl..."
-  plenv install ${PERL_VERSION}
+  plenv install ${PERL_VERSION} 2>&1 | indent
   plenv rehash
+
+  log_section "Installing base perl dependencies..."
+  plenv install-cpanm  2>&1 | indent
+  cpanm Carton  2>&1 | indent
 fi
 
 log "Installed perls:"
-plenv versions
+plenv versions  2>&1 | indent
 
-log_section "Installing base dependencies..."
-log "Installing cpanm..."
-plenv install-cpanm
-
-log "Installing carton..."
-cpanm Carton
+log_section "Installing dependencies with Carton"
+carton install --deployment 2>&1 | indent
