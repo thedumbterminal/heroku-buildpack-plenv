@@ -17,7 +17,13 @@ log "Cache dir: ${CACHE_DIR}"
 
 ls -al ${CACHE_DIR}
 
-git clone https://github.com/tokuhirom/plenv.git ${CACHE_DIR}/.plenv
+if [ ! -e "${CACHE_DIR}/.plenv" ]; then
+  log "Downloading plenv"
+  git clone https://github.com/tokuhirom/plenv.git ${CACHE_DIR}/.plenv
+fi
+
+export PATH=${CACHE_DIR}/.plenv/bin:$PATH
+plenv
 
 if [ -e "$BUILD_DIR/.perl-version" ]; then
   PERL_VERSION=`cat $BUILD_DIR/.perl-version`
