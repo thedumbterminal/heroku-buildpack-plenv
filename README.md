@@ -27,5 +27,5 @@ https://www.heroku.com/elements/buildpacks
 
 Based on the excellent work by [Tatsuhiko Miyagawa](https://github.com/miyagawa):
 
-https://github.com/miyagawa/heroku-buildpack-perl#carton
+https://github.com/miyagawa/heroku-buildpack-perl/pull/6
 
