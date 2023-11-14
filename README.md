@@ -19,6 +19,10 @@ Install:
 heroku buildpacks:set thedumbterminal/plenv
 ```
 
+For more info see:
+
+https://www.heroku.com/elements/buildpacks
+
 ## Inspiration
 
 Based on the excellent work by [Tatsuhiko Miyagawa](https://github.com/miyagawa):
