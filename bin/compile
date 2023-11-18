@@ -19,7 +19,7 @@ mkdir -p ${CACHE_DIR}
 mkdir -p ${CACHE_DIR}/.plenv
 
 log "Restoring perl cache"
-cp -a ${CACHE_DIR}/.plenv ${BUILD_DIR}/
+cp -a ${CACHE_DIR}/.plenv ${BUILD_DIR}/.plenv
 
 export PLENV_ROOT=${BUILD_DIR}/.plenv
 
