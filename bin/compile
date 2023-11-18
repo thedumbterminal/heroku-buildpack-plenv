@@ -16,10 +16,10 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 mkdir -p ${CACHE_DIR}
-mkdir -p ${CACHE_DIR}./plenv
+mkdir -p ${CACHE_DIR}/.plenv
 
 log "Restoring perl cache"
-cp -a ${CACHE_DIR}./plenv ${BUILD_DIR}/
+cp -a ${CACHE_DIR}/.plenv ${BUILD_DIR}/
 
 export PLENV_ROOT=${BUILD_DIR}/.plenv
 
