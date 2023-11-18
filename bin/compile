@@ -73,3 +73,8 @@ cp -a ${PLENV_ROOT} ${CACHE_DIR}/.plenv
 log "Replacing module cache"
 rm -rf ${CACHE_DIR}/local
 cp -a local ${CACHE_DIR}/
+
+log "plenvroot"
+ls -al ${PLENV_ROOT}
+log "plenvroot bin"
+ls -al ${PLENV_ROOT}/shims
