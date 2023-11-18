@@ -64,6 +64,7 @@ log_section "Installing dependencies with Carton..."
 log "Restoring module cache"
 mkdir -p ${CACHE_DIR}/local
 cp -a ${CACHE_DIR}/local local
+plenv rehash
 carton install --deployment 2>&1 | indent
 
 log "Replacing perl cache"
