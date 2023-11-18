@@ -18,12 +18,12 @@ CACHE_DIR=$2
 mkdir -p ${CACHE_DIR}
 mkdir -p ${CACHE_DIR}./plenv
 
+log "Restoring perl cache"
+cp -a ${CACHE_DIR}./plenv ${BUILD_DIR}/
+
 export PLENV_ROOT=${BUILD_DIR}/.plenv
 
-log "Restoring perl cache"
-cp -a ${CACHE_DIR}./plenv ${PLENV_ROOT}
-
-if [ ! -e "${PLENV_ROOT}/bin" ]; then
+if [ ! -e "${PLENV_ROOT}/shims" ]; then
   log_section "Downloading plenv..."
   git clone https://github.com/tokuhirom/plenv.git ${PLENV_ROOT} 2>&1 | indent
 fi
