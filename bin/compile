@@ -16,8 +16,12 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 mkdir -p ${CACHE_DIR}
+mkdir -p ${CACHE_DIR}./plenv
 
-export PLENV_ROOT=${CACHE_DIR}/.plenv
+export PLENV_ROOT=${BUILD_DIR}/.plenv
+
+log "Restoring perl cache"
+cp -a ${CACHE_DIR}./plenv ${PLENV_ROOT}
 
 if [ ! -e "${PLENV_ROOT}" ]; then
   log_section "Downloading plenv..."
@@ -61,6 +65,11 @@ log "Restoring module cache"
 mkdir -p ${CACHE_DIR}/local
 cp -a ${CACHE_DIR}/local local
 carton install --deployment 2>&1 | indent
+
+log "Replacing perl cache"
+rm -rf ${CACHE_DIR}/.plenv
+cp -a ${PLENV_ROOT} ${CACHE_DIR}/.plenv
+
 log "Replacing module cache"
 rm -rf ${CACHE_DIR}/local
 cp -a local ${CACHE_DIR}/
