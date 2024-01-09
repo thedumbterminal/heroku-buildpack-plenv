@@ -61,6 +61,10 @@ fi
 log "Installed perls:"
 plenv versions 2>&1 | indent
 
+log "Base perl dependency Locations:"
+which carton | indent
+which starman | indent
+
 log_section "Installing dependencies with Carton..."
 log "Restoring module cache"
 mkdir -p ${CACHE_DIR}/local
