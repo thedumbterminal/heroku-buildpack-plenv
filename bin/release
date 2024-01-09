@@ -7,5 +7,5 @@ config_vars:
   PATH: /app/local/bin:/app/.plenv/bin:/app/.plenv/shims:/usr/local/bin:/usr/bin:/bin
   PERL5LIB: /app/local/lib/perl5
 default_process_types:
-  web: ls -al /app/.plenv/shims && carton exec starman --preload-app --port \$PORT
+  web: ls -al /app/.plenv/shims && env && carton exec starman --preload-app --port \$PORT
 EOF
