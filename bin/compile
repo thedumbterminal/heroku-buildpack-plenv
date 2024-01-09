@@ -71,6 +71,7 @@ carton install --deployment 2>&1 | indent
 log "Replacing perl cache"
 rm -rf ${CACHE_DIR}/.plenv
 cp -a ${PLENV_ROOT} ${CACHE_DIR}/
+cp -a ${PLENV_ROOT} ${BUILD_DIR}/
 
 log "Replacing module cache"
 rm -rf ${CACHE_DIR}/local
