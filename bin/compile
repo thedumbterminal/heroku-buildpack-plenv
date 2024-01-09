@@ -20,7 +20,7 @@ mkdir -p ${CACHE_DIR}/.plenv
 mkdir -p /app
 
 log "Restoring perl cache"
-#cp -a ${CACHE_DIR}/.plenv /app/.plenv
+cp -a ${CACHE_DIR}/.plenv /app/.plenv
 
 export PLENV_ROOT=/app/.plenv
 
@@ -71,7 +71,6 @@ carton install --deployment 2>&1 | indent
 log "Replacing perl cache"
 rm -rf ${CACHE_DIR}/.plenv
 cp -a ${PLENV_ROOT} ${CACHE_DIR}/
-cp -a ${PLENV_ROOT} ${BUILD_DIR}/
 
 log "Replacing module cache"
 rm -rf ${CACHE_DIR}/local
@@ -79,7 +78,7 @@ cp -a local ${CACHE_DIR}/
 
 log "plenvroot"
 ls -al ${PLENV_ROOT}
-log "plenvroot bin"
-ls -al ${PLENV_ROOT}/shims
+log "cachedir"
+ls -al ${CACHE_DIR}
 log "build dir"
 ls -al ${BUILD_DIR}
