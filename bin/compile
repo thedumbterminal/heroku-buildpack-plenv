@@ -76,7 +76,6 @@ carton install --deployment 2>&1 | indent
 log_section "Finishing up..."
 
 log "Installing profile scripts"
-log "buildpack dir is: ${BP_DIR}"
 cp -av ${BP_DIR}/profile ${BUILD_DIR}/.profile.d
 
 log "Replacing perl cache"
