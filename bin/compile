@@ -14,12 +14,18 @@ log_section() {
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+BP_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 
 mkdir -p ${CACHE_DIR}
+mkdir -p ${CACHE_DIR}/.plenv
+mkdir -p /app
 
-export PLENV_ROOT=${CACHE_DIR}/.plenv
+log "Restoring perl cache"
+cp -a ${CACHE_DIR}/.plenv /app/.plenv
 
-if [ ! -e "${PLENV_ROOT}" ]; then
+export PLENV_ROOT=/app/.plenv
+
+if [ ! -e "${PLENV_ROOT}/shims" ]; then
   log_section "Downloading plenv..."
   git clone https://github.com/tokuhirom/plenv.git ${PLENV_ROOT} 2>&1 | indent
 fi
@@ -56,11 +62,27 @@ fi
 log "Installed perls:"
 plenv versions 2>&1 | indent
 
+log "Base perl dependency Locations:"
+which carton | indent
+which starman | indent
+
 log_section "Installing dependencies with Carton..."
 log "Restoring module cache"
 mkdir -p ${CACHE_DIR}/local
 cp -a ${CACHE_DIR}/local local
+plenv rehash
 carton install --deployment 2>&1 | indent
+
+log_section "Finishing up..."
+
+log "Installing profile scripts"
+cp -av ${BP_DIR}/profile ${BUILD_DIR}/.profile.d
+
+log "Replacing perl cache"
+rm -rf ${CACHE_DIR}/.plenv
+cp -a ${PLENV_ROOT} ${CACHE_DIR}/
+cp -a ${PLENV_ROOT} ${BUILD_DIR}/
+
 log "Replacing module cache"
 rm -rf ${CACHE_DIR}/local
 cp -a local ${CACHE_DIR}/
