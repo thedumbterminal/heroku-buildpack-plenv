@@ -4,5 +4,5 @@ cat << EOF
 ---
 addons:
 default_process_types:
-  web: ls -al /app/.plenv/shims && env && carton exec starman --preload-app --port \$PORT
+  web: carton exec starman --preload-app --port \$PORT
 EOF
