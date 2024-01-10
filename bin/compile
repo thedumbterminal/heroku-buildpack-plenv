@@ -14,6 +14,7 @@ log_section() {
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+BP_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 
 mkdir -p ${CACHE_DIR}
 mkdir -p ${CACHE_DIR}/.plenv
@@ -72,6 +73,12 @@ cp -a ${CACHE_DIR}/local local
 plenv rehash
 carton install --deployment 2>&1 | indent
 
+log_section "Finishing up..."
+
+log "Installing profile scripts"
+log "buildpack dir is: ${BP_DIR}"
+cp -av ${BP_DIR}/profile ${BUILD_DIR}/.profile.d
+
 log "Replacing perl cache"
 rm -rf ${CACHE_DIR}/.plenv
 cp -a ${PLENV_ROOT} ${CACHE_DIR}/
@@ -80,10 +87,3 @@ cp -a ${PLENV_ROOT} ${BUILD_DIR}/
 log "Replacing module cache"
 rm -rf ${CACHE_DIR}/local
 cp -a local ${CACHE_DIR}/
-
-log "plenvroot"
-ls -al ${PLENV_ROOT}
-log "cachedir"
-ls -al ${CACHE_DIR}
-log "build dir"
-ls -al ${BUILD_DIR}
